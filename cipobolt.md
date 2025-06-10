@@ -850,6 +850,482 @@ private void FelhasznaloTreeView_SelectedItemChanged(object sender, RoutedProper
 }
 ```
 
+<details>
+<summary>Nyiss le az xaml forrásért!</summary> 
+
+```xaml
+<Window x:Class="WpfApp3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp3"
+        mc:Ignorable="d"
+        Title="Cipő Nyilvántartó" Height="720" Width="900"
+        FontFamily="Segoe UI" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="TabItem">
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="5 5 15 5"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="MinWidth" Value="120"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Background" Value="#FF0078D7"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="MinWidth" Value="100"/>
+        </Style>
+
+        <Style TargetType="ListView">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+
+        <Style TargetType="GridViewColumnHeader">
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Background" Value="#FFEEEEEE"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="5 5 0 5"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="#FFF5F5F5">
+        <TabControl Background="White">
+            <!-- Cipők fül -->
+            <TabItem Header="Cipők">
+                <StackPanel Margin="10">
+                    <Border Background="White" CornerRadius="5" Padding="10" Margin="0,0,0,10"
+                            BorderThickness="1" BorderBrush="#FFDDDDDD">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Márka"/>
+                                <TextBox x:Name="CipoMarka"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Méret"/>
+                                <TextBox x:Name="CipoMeret"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Szín"/>
+                                <TextBox x:Name="CipoSzin"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Ár"/>
+                                <TextBox x:Name="CipoAr"/>
+                            </StackPanel>
+                            <Button Content="Hozzáadás" Click="AddCipo_Click" Margin="15 25 5 5"/>
+                        </StackPanel>
+                    </Border>
+                    <Border CornerRadius="5" Background="White" BorderThickness="1" BorderBrush="#FFDDDDDD">
+                        <ListView x:Name="CipoList" Height="500">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="80"/>
+                                    <GridViewColumn Header="Márka" DisplayMemberBinding="{Binding Marka}" Width="150"/>
+                                    <GridViewColumn Header="Méret" DisplayMemberBinding="{Binding Meret}" Width="80"/>
+                                    <GridViewColumn Header="Szín" DisplayMemberBinding="{Binding Szin}" Width="100"/>
+                                    <GridViewColumn Header="Ár" DisplayMemberBinding="{Binding Ar}" Width="100"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Border>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Felhasználók fül -->
+            <TabItem Header="Vásárlók">
+                <StackPanel Margin="10">
+                    <Border Background="White" CornerRadius="5" Padding="10" Margin="0,0,0,10"
+                            BorderThickness="1" BorderBrush="#FFDDDDDD">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Név"/>
+                                <TextBox x:Name="FelhaszNev"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Email"/>
+                                <TextBox x:Name="FelhaszEmail"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Év"/>
+                                <TextBox x:Name="FelhaszEv"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Lakhely"/>
+                                <TextBox x:Name="FelhaszLakhely"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Telefonszám"/>
+                                <TextBox x:Name="FelhaszTel"/>
+                            </StackPanel>
+                            <Button Content="Hozzáadás" Click="AddFelhasznalo_Click" Margin="15 25 5 5"/>
+                        </StackPanel>
+                    </Border>
+                    <Border CornerRadius="5" Background="White" BorderThickness="1" BorderBrush="#FFDDDDDD">
+                        <ListView x:Name="FelhasznaloList" Height="500">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Név" DisplayMemberBinding="{Binding Nev}" Width="150"/>
+                                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="180"/>
+                                    <GridViewColumn Header="Év" DisplayMemberBinding="{Binding SzuletesiEv}" Width="80"/>
+                                    <GridViewColumn Header="Lakhely" DisplayMemberBinding="{Binding Lakhely}" Width="150"/>
+                                    <GridViewColumn Header="Tel" DisplayMemberBinding="{Binding Telefonszam}" Width="150"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Border>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Összekötés fül -->
+            <TabItem Header="Összekötés">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical">
+                        <TextBlock Text="Válassz cipőt" Margin="5 5 5 0"/>
+                        <Border CornerRadius="5" Background="White" 
+                                BorderThickness="1" BorderBrush="#FFDDDDDD" Margin="5">
+                            <ListBox x:Name="CipoListBox" Height="150" Margin="5"/>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Vertical">
+                        <TextBlock Text="Válassz vásárlót" Margin="5 5 5 0"/>
+                        <Border CornerRadius="5" Background="White" 
+                                BorderThickness="1" BorderBrush="#FFDDDDDD" Margin="5">
+                            <ListBox x:Name="FelhasznaloListBox" Height="150" Margin="5" DisplayMemberPath="Nev"/>
+                        </Border>
+                    </StackPanel>
+
+                    <Button Content="Összekapcsolás" Grid.ColumnSpan="2" Grid.Row="1" 
+                            Click="Osszekotes_Click" Margin="5" HorizontalAlignment="Center" Width="150"/>
+
+                    <StackPanel Grid.ColumnSpan="2" Grid.Row="2" Orientation="Vertical">
+                        <TextBlock Text="Kapcsolatok" Margin="5 5 5 0"/>
+                        <Border CornerRadius="5" Background="White" 
+                                BorderThickness="1" BorderBrush="#FFDDDDDD" Margin="5">
+                            <ListView x:Name="KapcsolatList" Height="300">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Felhasználó" DisplayMemberBinding="{Binding FelhasznaloNev}" Width="250"/>
+                                        <GridViewColumn Header="Cipő" DisplayMemberBinding="{Binding CipoMarka}" Width="150"/>
+                                        <GridViewColumn Header="Cipő ID" DisplayMemberBinding="{Binding CipoID}" Width="100"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Kereső fül -->
+            <TabItem Header="Kereső">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Background="White" CornerRadius="5" Padding="5" Margin="5"
+                BorderThickness="1" BorderBrush="#FFDDDDDD" Grid.Column="0">
+                        <TreeView x:Name="FelhasznaloTreeView" SelectedItemChanged="FelhasznaloTreeView_SelectedItemChanged" DisplayMemberPath="Nev"/>
+                    </Border>
+                    <StackPanel Grid.Column="1" Margin="10,0,0,0" Orientation="Vertical">
+                        <TextBlock Text="Kapcsolt cipők" Margin="5 0 0 5" FontWeight="Bold"/>
+                        <Border CornerRadius="5" Background="White" BorderThickness="1" BorderBrush="#FFDDDDDD">
+                            <ListView x:Name="KeresesCipoLista" Height="450" Margin="5">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="80"/>
+                                        <GridViewColumn Header="Márka" DisplayMemberBinding="{Binding Marka}" Width="150"/>
+                                        <GridViewColumn Header="Méret" DisplayMemberBinding="{Binding Meret}" Width="80"/>
+                                        <GridViewColumn Header="Szín" DisplayMemberBinding="{Binding Szin}" Width="120"/>
+                                        <GridViewColumn Header="Ár" DisplayMemberBinding="{Binding Ar}" Width="100"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Window> 
+
+```
 
 
+<details>
+<summary>Nyiss le az xaml.cs forrásért!</summary> 
+
+```C#
+using System.IO;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Collections.Generic;
+
+namespace WpfApp3
+{
+    public class Cipo
+    {
+        public int Id { get; set; }
+        public string Marka { get; set; }
+        public string Meret { get; set; }
+        public string Szin { get; set; }
+        public string Ar { get; set; }
+
+        public override string ToString() => $"[{Id}] {Marka} - {Meret} - {Szin} - {Ar} Ft";
+    }
+
+    public class Felhasznalo
+    {
+        public string Nev { get; set; }
+        public string Email { get; set; }
+        public string SzuletesiEv { get; set; }
+        public string Lakhely { get; set; }
+        public string Telefonszam { get; set; }
+        public override string ToString() => Nev;
+    }
+
+    public class Kapcsolat
+    {
+        public string FelhasznaloNev { get; set; }
+        public string CipoMarka { get; set; }
+        public string CipoID { get; set; }
+        public override string ToString() => $"{FelhasznaloNev} - {CipoMarka} {CipoID}";
+    }
+    public partial class MainWindow : Window
+    {
+        private List<Cipo> cipok = new List<Cipo>();
+        private List<Felhasznalo> felhasznalok = new List<Felhasznalo>();
+        private List<Kapcsolat> kapcsolatok = new List<Kapcsolat>();
+        private int kovetkezoCipoId = 1;
+
+        public MainWindow()
+        {
+            InitializeComponent();
+            BetoltCipok();
+            BetoltFelhasznalok();
+            BetoltKapcsolatok();
+            FeltoltFelhasznaloTreeView();
+        }
+
+        private void AddCipo_Click(object sender, RoutedEventArgs e)
+        {
+            if (!int.TryParse(CipoMeret.Text, out _) || !int.TryParse(CipoAr.Text, out _))
+            {
+                MessageBox.Show("A méret és az ár csak szám lehet!");
+                return;
+            }
+
+            var cipo = new Cipo
+            {
+                Id = kovetkezoCipoId++,
+                Marka = CipoMarka.Text,
+                Meret = CipoMeret.Text,
+                Szin = CipoSzin.Text,
+                Ar = CipoAr.Text
+            };
+
+            cipok.Add(cipo);
+            CipoList.Items.Add(cipo);
+            CipoListBox.Items.Add(cipo);
+            MentCipok();
+        }
+
+        private void AddFelhasznalo_Click(object sender, RoutedEventArgs e)
+        {
+            if (!int.TryParse(FelhaszEv.Text, out _) || !long.TryParse(FelhaszTel.Text, out _))
+            {
+                MessageBox.Show("A születési év és a telefonszám csak szám lehet!");
+                return;
+            }
+
+            var felh = new Felhasznalo
+            {
+                Nev = FelhaszNev.Text,
+                Email = FelhaszEmail.Text,
+                SzuletesiEv = FelhaszEv.Text,
+                Lakhely = FelhaszLakhely.Text,
+                Telefonszam = FelhaszTel.Text
+            };
+            felhasznalok.Add(felh);
+            FelhasznaloList.Items.Add(felh);
+            FelhasznaloListBox.Items.Add(felh);
+            MentFelhasznalok();
+        }
+
+        private void Osszekotes_Click(object sender, RoutedEventArgs e)
+        {
+            if (CipoListBox.SelectedItem is Cipo c && FelhasznaloListBox.SelectedItem is Felhasznalo f)
+            {
+                var kapcsolat = new Kapcsolat { FelhasznaloNev = f.Nev, CipoMarka = c.Marka, CipoID = c.Id.ToString() };
+                kapcsolatok.Add(kapcsolat);
+                KapcsolatList.Items.Add(kapcsolat);
+                MentKapcsolatok();
+
+                FeltoltFelhasznaloTreeView();
+            }
+        }
+
+        private void BetoltCipok()
+        {
+            if (File.Exists("cipok.txt"))
+            {
+                string[] sorok = File.ReadAllLines("cipok.txt");
+                foreach (string sor in sorok)
+                {
+                    string[] mezok = sor.Split(';');
+                    if (mezok.Length == 5)
+                    {
+                        Cipo cipo = new Cipo
+                        {
+                            Id = int.Parse(mezok[0]),
+                            Marka = mezok[1],
+                            Meret = mezok[2],
+                            Szin = mezok[3],
+                            Ar = mezok[4]
+                        };
+                        cipok.Add(cipo);
+                        CipoList.Items.Add(cipo);
+                        CipoListBox.Items.Add(cipo);
+
+                        if (cipo.Id >= kovetkezoCipoId)
+                            kovetkezoCipoId = cipo.Id + 1;
+                    }
+                }
+            }
+        }
+
+        private void MentCipok()
+        {
+            using var writer = new StreamWriter("cipok.txt");
+            foreach (var c in cipok)
+            {
+                writer.WriteLine($"{c.Id};{c.Marka};{c.Meret};{c.Szin};{c.Ar}");
+            }
+        }
+
+        private void BetoltFelhasznalok()
+        {
+            if (File.Exists("felhasznalok.txt"))
+            {
+                string[] sorok = File.ReadAllLines("felhasznalok.txt");
+                foreach (string sor in sorok)
+                {
+                    string[] mezok = sor.Split(';');
+                    if (mezok.Length == 5)
+                    {
+                        Felhasznalo felh = new Felhasznalo
+                        {
+                            Nev = mezok[0],
+                            Email = mezok[1],
+                            SzuletesiEv = mezok[2],
+                            Lakhely = mezok[3],
+                            Telefonszam = mezok[4]
+                        };
+                        felhasznalok.Add(felh);
+                        FelhasznaloList.Items.Add(felh);
+                        FelhasznaloListBox.Items.Add(felh);
+                    }
+                }
+            }
+        }
+
+        private void MentFelhasznalok()
+        {
+            using var writer = new StreamWriter("felhasznalok.txt");
+            foreach (var f in felhasznalok)
+            {
+                writer.WriteLine($"{f.Nev};{f.Email};{f.SzuletesiEv};{f.Lakhely};{f.Telefonszam}");
+            }
+        }
+        private void BetoltKapcsolatok()
+        {
+            if (File.Exists("kapcsolatok.txt"))
+            {
+                string[] sorok = File.ReadAllLines("kapcsolatok.txt");
+                foreach (string sor in sorok)
+                {
+                    string[] mezok = sor.Split(';');
+                    if (mezok.Length == 3)
+                    {
+                        Kapcsolat kapcsolat = new Kapcsolat
+                        {
+                            FelhasznaloNev = mezok[0],
+                            CipoMarka = mezok[1],
+                            CipoID = mezok[2]
+                        };
+                        kapcsolatok.Add(kapcsolat);
+                        KapcsolatList.Items.Add(kapcsolat);
+                    }
+                }
+            }
+        }
+
+        private void MentKapcsolatok()
+        {
+            using var writer = new StreamWriter("kapcsolatok.txt");
+            foreach (var k in kapcsolatok)
+            {
+                writer.WriteLine($"{k.FelhasznaloNev};{k.CipoMarka};{k.CipoID}");
+            }
+        }
+
+        private void FeltoltFelhasznaloTreeView()
+        {
+            FelhasznaloTreeView.Items.Clear();
+            foreach (var felh in felhasznalok)
+            {
+                FelhasznaloTreeView.Items.Add(felh);
+            }
+        }
+
+        private void FelhasznaloTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            KeresesCipoLista.Items.Clear();
+
+            if (FelhasznaloTreeView.SelectedItem is Felhasznalo felh)
+            {
+                var kapcsoltCipok = kapcsolatok
+                    .Where(k => k.FelhasznaloNev == felh.Nev)
+                    .Join(cipok,
+                        k => k.CipoID,
+                        c => c.Id.ToString(),
+                        (k, c) => c);
+                foreach (var cipo in kapcsoltCipok)
+                {
+                    KeresesCipoLista.Items.Add(cipo);
+                }
+            }
+        }
+    }
+}
+
+```
 
