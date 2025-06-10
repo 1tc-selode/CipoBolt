@@ -342,9 +342,11 @@ Ez a `AddCipo_Click` nevű függvény egy eseménykezelő, ami akkor fut le, ami
     return;
 }
 ```
-- Megpróbálja átalakítani a CipoMeret.Text és CipoAr.Text szöveges értékeket egész számokká
-- Ha bármelyik nem konvertálható számként (például betűket tartalmaz), akkor megjelenít egy üzenetet: "A méret és az ár csak szám lehet!"
-- Ezután a return; miatt a függvény leáll, nem folytatódik tovább, így nem ad hozzá új cipőt
+Megpróbálja átalakítani a CipoMeret.Text és CipoAr.Text szöveges értékeket egész számokká.
+
+Ha bármelyik nem konvertálható számként (például betűket tartalmaz), akkor megjelenít egy üzenetet: "A méret és az ár csak szám lehet!".
+
+Ezután a return; miatt a függvény leáll, nem folytatódik tovább, így nem ad hozzá új cipőt.
 
 ```csharp
 var cipo = new Cipo
@@ -356,15 +358,27 @@ var cipo = new Cipo
     Ar = CipoAr.Text
 };
 ```
-- Létrehoz egy új Cipo nevű objektumot
-- Az Id mezőjéhez beállítja az aktuális kovetkezoCipoId értéket, majd növeli azt eggyel (++)
-- A Marka, Meret, Szin, Ar tulajdonságokat a felhasználó által beírt szöveges mezők értékeivel tölti fel
-
 Létrehoz egy új Cipo nevű objektumot.
 
 Az Id mezőjéhez beállítja az aktuális kovetkezoCipoId értéket, majd növeli azt eggyel (++).
 
 A Marka, Meret, Szin, Ar tulajdonságokat a felhasználó által beírt szöveges mezők értékeivel tölti fel.
+
+```csharp
+cipok.Add(cipo);
+```
+Hozzáadja az új cipő objektumot a cipok nevű listához, ami valószínűleg a cipők adatait tárolja.
+
+```csharp
+CipoList.Items.Add(cipo);
+CipoListBox.Items.Add(cipo);
+```
+Két különböző UI elemhez (talán két lista vagy listaelem kontroll) hozzáadja a létrehozott cipő objektumot, hogy megjelenjen a felületen.
+
+```csharp
+MentCipok();
+```
+Meghív egy másik függvényt, ami feltehetőleg elmenti az aktuális cipők listáját valamilyen tartós tárolóba (például fájlba vagy adatbázisba).
 
 ```csharp
     private void AddCipo_Click(object sender, RoutedEventArgs e)
