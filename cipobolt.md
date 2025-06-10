@@ -36,6 +36,47 @@ A felhasználói felület a következő főbb elemekből áll:
       <GridViewColumn Header="Márka" DisplayMemberBinding="{Binding Marka}" />
       ```
       → Ez azt jelenti, hogy a `Cipo` objektum `Marka` nevű mezőjét fogja megjeleníteni ebben az oszlopban.
+```cs
+      <TabItem Header="Cipők">
+    <StackPanel Margin="10">
+        <Border Background="White" CornerRadius="5" Padding="10" Margin="0,0,0,10"
+                BorderThickness="1" BorderBrush="#FFDDDDDD">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Márka"/>
+                    <TextBox x:Name="CipoMarka"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Méret"/>
+                    <TextBox x:Name="CipoMeret"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Szín"/>
+                    <TextBox x:Name="CipoSzin"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Ár"/>
+                    <TextBox x:Name="CipoAr"/>
+                </StackPanel>
+                <Button Content="Hozzáadás" Click="AddCipo_Click" Margin="15 25 5 5"/>
+            </StackPanel>
+        </Border>
+        <Border CornerRadius="5" Background="White" BorderThickness="1" BorderBrush="#FFDDDDDD">
+            <ListView x:Name="CipoList" Height="500">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="80"/>
+                        <GridViewColumn Header="Márka" DisplayMemberBinding="{Binding Marka}" Width="150"/>
+                        <GridViewColumn Header="Méret" DisplayMemberBinding="{Binding Meret}" Width="80"/>
+                        <GridViewColumn Header="Szín" DisplayMemberBinding="{Binding Szin}" Width="100"/>
+                        <GridViewColumn Header="Ár" DisplayMemberBinding="{Binding Ar}" Width="100"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+    </StackPanel>
+</TabItem>
+```
 
 ### TabItem – Vásárlók fül
 
@@ -46,6 +87,51 @@ A felhasználói felület a következő főbb elemekből áll:
     ```xml
     <GridViewColumn Header="Lakhely" DisplayMemberBinding="{Binding Lakhely}" />
     ```
+```cs
+<TabItem Header="Vásárlók">
+    <StackPanel Margin="10">
+        <Border Background="White" CornerRadius="5" Padding="10" Margin="0,0,0,10"
+                BorderThickness="1" BorderBrush="#FFDDDDDD">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Név"/>
+                    <TextBox x:Name="FelhaszNev"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Email"/>
+                    <TextBox x:Name="FelhaszEmail"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Év"/>
+                    <TextBox x:Name="FelhaszEv"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Lakhely"/>
+                    <TextBox x:Name="FelhaszLakhely"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Telefonszám"/>
+                    <TextBox x:Name="FelhaszTel"/>
+                </StackPanel>
+                <Button Content="Hozzáadás" Click="AddFelhasznalo_Click" Margin="15 25 5 5"/>
+            </StackPanel>
+        </Border>
+        <Border CornerRadius="5" Background="White" BorderThickness="1" BorderBrush="#FFDDDDDD">
+            <ListView x:Name="FelhasznaloList" Height="500">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Név" DisplayMemberBinding="{Binding Nev}" Width="150"/>
+                        <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="180"/>
+                        <GridViewColumn Header="Év" DisplayMemberBinding="{Binding SzuletesiEv}" Width="80"/>
+                        <GridViewColumn Header="Lakhely" DisplayMemberBinding="{Binding Lakhely}" Width="150"/>
+                        <GridViewColumn Header="Tel" DisplayMemberBinding="{Binding Telefonszam}" Width="150"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+    </StackPanel>
+</TabItem>
+```
 
 ### TabItem – Összekötés fül
 
@@ -60,6 +146,56 @@ A felhasználói felület a következő főbb elemekből áll:
   <GridViewColumn Header="Cipő" DisplayMemberBinding="{Binding CipoMarka}" />
   <GridViewColumn Header="Cipő ID" DisplayMemberBinding="{Binding CipoID}" />
   ```
+```cs
+<TabItem Header="Összekötés">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical">
+            <TextBlock Text="Válassz cipőt" Margin="5 5 5 0"/>
+            <Border CornerRadius="5" Background="White" 
+                    BorderThickness="1" BorderBrush="#FFDDDDDD" Margin="5">
+                <ListBox x:Name="CipoListBox" Height="150" Margin="5"/>
+            </Border>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Vertical">
+            <TextBlock Text="Válassz vásárlót" Margin="5 5 5 0"/>
+            <Border CornerRadius="5" Background="White" 
+                    BorderThickness="1" BorderBrush="#FFDDDDDD" Margin="5">
+                <ListBox x:Name="FelhasznaloListBox" Height="150" Margin="5" DisplayMemberPath="Nev"/>
+            </Border>
+        </StackPanel>
+
+        <Button Content="Összekapcsolás" Grid.ColumnSpan="2" Grid.Row="1" 
+                Click="Osszekotes_Click" Margin="5" HorizontalAlignment="Center" Width="150"/>
+
+        <StackPanel Grid.ColumnSpan="2" Grid.Row="2" Orientation="Vertical">
+            <TextBlock Text="Kapcsolatok" Margin="5 5 5 0"/>
+            <Border CornerRadius="5" Background="White" 
+                    BorderThickness="1" BorderBrush="#FFDDDDDD" Margin="5">
+                <ListView x:Name="KapcsolatList" Height="300">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Felhasználó" DisplayMemberBinding="{Binding FelhasznaloNev}" Width="250"/>
+                            <GridViewColumn Header="Cipő" DisplayMemberBinding="{Binding CipoMarka}" Width="150"/>
+                            <GridViewColumn Header="Cipő ID" DisplayMemberBinding="{Binding CipoID}" Width="100"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Border>
+        </StackPanel>
+    </Grid>
+</TabItem>
+```
   
 ### TabItem – Kereső fül
 
@@ -82,6 +218,37 @@ A felhasználói felület a következő főbb elemekből áll:
   - **Méret**: a cipő mérete
   - **Szín**: a cipő színe
   - **Ár**: a cipő ára
+
+```cs
+<TabItem Header="Kereső">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Border Background="White" CornerRadius="5" Padding="5" Margin="5"
+    BorderThickness="1" BorderBrush="#FFDDDDDD" Grid.Column="0">
+            <TreeView x:Name="FelhasznaloTreeView" SelectedItemChanged="FelhasznaloTreeView_SelectedItemChanged" DisplayMemberPath="Nev"/>
+        </Border>
+        <StackPanel Grid.Column="1" Margin="10,0,0,0" Orientation="Vertical">
+            <TextBlock Text="Kapcsolt cipők" Margin="5 0 0 5" FontWeight="Bold"/>
+            <Border CornerRadius="5" Background="White" BorderThickness="1" BorderBrush="#FFDDDDDD">
+                <ListView x:Name="KeresesCipoLista" Height="450" Margin="5">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="80"/>
+                            <GridViewColumn Header="Márka" DisplayMemberBinding="{Binding Marka}" Width="150"/>
+                            <GridViewColumn Header="Méret" DisplayMemberBinding="{Binding Meret}" Width="80"/>
+                            <GridViewColumn Header="Szín" DisplayMemberBinding="{Binding Szin}" Width="120"/>
+                            <GridViewColumn Header="Ár" DisplayMemberBinding="{Binding Ar}" Width="100"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Border>
+        </StackPanel>
+    </Grid>
+</TabItem>
+```
 
 ---
 
@@ -109,6 +276,7 @@ Példa:
 
 ## CS kód
 
-## Osztályok
+### Osztályok
 
 Ebben az alkalmazásban három egyszerű osztály szerepel: `Cipo`, `Felhasznalo` és `Kapcsolat`. Ezek az osztályok az adatok szerkezetét határozzák meg – azaz, hogy **milyen mezőkből áll egy cipő, egy vásárló vagy egy kapcsolat**.
+
