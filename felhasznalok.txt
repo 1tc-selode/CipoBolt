@@ -1,0 +1,9 @@
+Kiss Péter;kiss.peter87@gmail.com;1987;Budapest;06201234567
+Nagy Ádám;nagy.adam90@yahoo.com;1990;Debrecen;06301234568
+Szabó Eszter;eszter.szabo@hotmail.com;1995;Szeged;06202223344
+Tóth Gábor;toth.gabor@freemail.hu;1983;Győr;06707775566
+Varga Kata;vargakata99@gmail.com;1999;Miskolc;06205556677
+Kovács Dávid;david.kovacs@outlook.com;1992;Pécs;06304445566
+Lakatos Lili;lili.lakatos@mail.com;1996;Sopron;06301112233
+Balogh Bence;bence.balogh@t-online.hu;1988;Eger;06206667788
+

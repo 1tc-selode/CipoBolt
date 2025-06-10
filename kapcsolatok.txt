@@ -1,0 +1,5 @@
+Tóth Gábor;Nike;1
+Kiss Péter;Nike;2
+Kiss Péter;Nike;3
+Kiss Péter;Nike;4
+Kiss Péter;DC Shoes;19

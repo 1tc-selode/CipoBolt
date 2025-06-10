@@ -1,0 +1,36 @@
+1;Nike;42;Fekete;31990
+2;Nike;43;Fehér;32990
+3;Nike;44;Kék;29990
+4;Nike;42;Piros;30990
+5;Nike;41;Fekete;28990
+6;Adidas;42;Fekete;28990
+7;Adidas;43;Fehér;31990
+8;Adidas;44;Kék;30990
+9;Adidas;41;Zöld;27990
+10;Adidas;45;Piros;33990
+11;Puma;42;Fekete;24990
+12;Puma;43;Fehér;25990
+13;Puma;44;Kék;26990
+14;Puma;45;Piros;27990
+15;Puma;41;Szürke;23990
+16;DC Shoes;42;Fekete;19990
+17;DC Shoes;43;Fehér;20990
+18;DC Shoes;44;Kék;21990
+19;DC Shoes;45;Piros;22990
+20;DC Shoes;41;Zöld;18990
+21;Nike;40;Szürke;29990
+22;Adidas;40;Kék;26990
+23;Puma;40;Fehér;25990
+24;DC Shoes;40;Fekete;20990
+25;Nike;46;Fehér;33990
+26;Adidas;46;Fekete;32990
+27;Puma;46;Piros;28990
+28;DC Shoes;46;Kék;21990
+29;Nike;44;Szürke;30990
+30;Puma;43;Zöld;26990
+31;New Balance;42;Szürke;28990
+32;New Balance;43;Fehér;29990
+33;New Balance;44;Fekete;30990
+34;New Balance;45;Kék;31990
+35;New Balance;41;Zöld;27990
+36;New Balance;40;Piros;28990
