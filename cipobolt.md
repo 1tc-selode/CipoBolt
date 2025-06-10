@@ -18,6 +18,9 @@ A felhasználói felület a következő főbb elemekből áll:
   - **Összekötés** fül: cipők és vásárlók összekapcsolása
   - **Kereső** fül: vásárló kiválasztása után a hozzá tartozó cipők listázása
 
+![image](https://github.com/user-attachments/assets/7a14bce6-f8c9-4a56-9781-82fc7c2fcb7b)
+
+
 ### TabItem – Cipők fül
 
 - **StackPanel**: Függőleges elrendezésű konténer, amiben két fő rész található:
