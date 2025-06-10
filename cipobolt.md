@@ -1077,7 +1077,7 @@ private void FelhasznaloTreeView_SelectedItemChanged(object sender, RoutedProper
 </Window> 
 
 ```
-
+</details>
 
 <details>
 <summary>Nyiss le az xaml.cs forrásért!</summary> 
@@ -1328,4 +1328,4 @@ namespace WpfApp3
 }
 
 ```
-
+</details>
