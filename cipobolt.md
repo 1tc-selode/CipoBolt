@@ -381,7 +381,7 @@ MentCipok();
 Meghív egy másik függvényt, ami feltehetőleg elmenti az aktuális cipők listáját valamilyen tartós tárolóba (például fájlba vagy adatbázisba).
 
 ```csharp
-    private void AddCipo_Click(object sender, RoutedEventArgs e)
+private void AddCipo_Click(object sender, RoutedEventArgs e)
 {
     if (!int.TryParse(CipoMeret.Text, out _) || !int.TryParse(CipoAr.Text, out _))
     {
@@ -405,6 +405,142 @@ Meghív egy másik függvényt, ami feltehetőleg elmenti az aktuális cipők li
 }
 ```
 ---
+# AddFelhasznalo_Click
+
+Ez az AddFelhasznalo_Click nevű függvény egy eseménykezelő, ami akkor fut le, amikor a felhasználó rákattint az „AddFelhasznalo” gombra. A függvény célja, hogy egy új felhasználó adatot vegyen fel a felhasználó által megadott adatok alapján, és ezt megjelenítse a felhasználói felületen.
+
+```csharp
+if (!int.TryParse(FelhaszEv.Text, out _) || !long.TryParse(FelhaszTel.Text, out _))
+{
+    MessageBox.Show("A születési év és a telefonszám csak szám lehet!");
+    return;
+}
+```
+Megpróbálja átalakítani a FelhaszEv.Text szöveges értéket egész számként, és a FelhaszTel.Text értéket hosszú egész számmá (long).
+
+Ha bármelyik nem konvertálható számként (például betűket tartalmaz), akkor megjelenít egy üzenetet: "A születési év és a telefonszám csak szám lehet!".
+
+Ezután a return; miatt a függvény leáll, nem folytatódik tovább, így nem ad hozzá új felhasználót.
+
+```csharp
+var felh = new Felhasznalo
+{
+    Nev = FelhaszNev.Text,
+    Email = FelhaszEmail.Text,
+    SzuletesiEv = FelhaszEv.Text,
+    Lakhely = FelhaszLakhely.Text,
+    Telefonszam = FelhaszTel.Text
+};
+```
+Létrehoz egy új Felhasznalo nevű objektumot.
+
+A tulajdonságait a felhasználó által beírt szöveges mezők értékeivel tölti fel (Nev, Email, SzuletesiEv, Lakhely, Telefonszam).
+
+```csharp
+felhasznalok.Add(felh);
+```
+Hozzáadja az új felhasználó objektumot a felhasznalok nevű listához, ami valószínűleg a felhasználók adatait tárolja.
+
+```csharp
+FelhasznaloList.Items.Add(felh);
+FelhasznaloListBox.Items.Add(felh);
+```
+Két különböző UI elemhez (például lista- vagy listaelem kontrollokhoz) hozzáadja a létrehozott felhasználó objektumot, hogy megjelenjen a felületen.
+
+```csharp
+MentFelhasznalok();
+```
+Meghív egy másik függvényt, ami feltehetőleg elmenti az aktuális felhasználók listáját valamilyen tartós tárolóba (például fájlba vagy adatbázisba).
+
+```csharp
+private void AddFelhasznalo_Click(object sender, RoutedEventArgs e)
+{
+    if (!int.TryParse(FelhaszEv.Text, out _) || !long.TryParse(FelhaszTel.Text, out _))
+    {
+        MessageBox.Show("A születési év és a telefonszám csak szám lehet!");
+        return;
+    }
+
+    var felh = new Felhasznalo
+    {
+        Nev = FelhaszNev.Text,
+        Email = FelhaszEmail.Text,
+        SzuletesiEv = FelhaszEv.Text,
+        Lakhely = FelhaszLakhely.Text,
+        Telefonszam = FelhaszTel.Text
+    };
+    felhasznalok.Add(felh);
+    FelhasznaloList.Items.Add(felh);
+    FelhasznaloListBox.Items.Add(felh);
+    MentFelhasznalok();
+}
+```
+---
+
+# Osszekotes_Click
+
+Ez a Osszekotes_Click nevű függvény egy eseménykezelő, amely akkor fut le, amikor a felhasználó rákattint az „Osszekotes” gombra. A függvény célja, hogy összekapcsoljon egy kiválasztott cipőt és egy kiválasztott felhasználót, majd ezt az összekapcsolást elmentse és megjelenítse.
+
+```csharp
+if (CipoListBox.SelectedItem is Cipo c && FelhasznaloListBox.SelectedItem is Felhasznalo f)
+```
+Ellenőrzi, hogy a CipoListBox-ban (cipőket tartalmazó lista) van-e kiválasztott elem, és hogy az elem típusa Cipo.
+
+Ugyanígy ellenőrzi, hogy a FelhasznaloListBox-ban (felhasználókat tartalmazó lista) van-e kiválasztott elem, és az elem típusa Felhasznalo.
+
+Ha mindkét feltétel teljesül, a kiválasztott cipő objektumot a c változóba, a kiválasztott felhasználó objektumot pedig az f változóba menti.
+
+```csharp
+var kapcsolat = new Kapcsolat { FelhasznaloNev = f.Nev, CipoMarka = c.Marka, CipoID = c.Id.ToString() };
+
+```
+Létrehoz egy új Kapcsolat nevű objektumot, amely az összekapcsolást reprezentálja.
+
+A kapcsolatba beállítja a felhasználó nevét (FelhasznaloNev) a kiválasztott f.Nev alapján.
+
+Beállítja a cipő márkáját (CipoMarka) a kiválasztott cipő c.Marka értékével.
+
+Beállítja a cipő azonosítóját (CipoID) a kiválasztott cipő c.Id értékének szöveges változataként (ToString()).
+
+```csharp
+kapcsolatok.Add(kapcsolat);
+
+```
+Hozzáadja az új kapcsolatot a kapcsolatok nevű listához, amely az összes felhasználó-cipő összekapcsolást tárolja.
+
+```csharp
+KapcsolatList.Items.Add(kapcsolat);
+
+```
+Hozzáadja az új kapcsolatot a KapcsolatList nevű felhasználói felület elemeihez, hogy megjelenjen a felületen.
+
+```csharp
+MentKapcsolatok();
+
+```
+Meghív egy függvényt, amely elmenti az aktuális kapcsolatokat valamilyen tartós tárolóba (például fájlba vagy adatbázisba).
+
+```csharp
+FeltoltFelhasznaloTreeView();
+
+```
+Meghív egy másik függvényt, amely feltölti a felhasználói fa nézetet (TreeView), hogy tükrözze az új kapcsolatokat.
+
+```csharp
+private void Osszekotes_Click(object sender, RoutedEventArgs e)
+{
+    if (CipoListBox.SelectedItem is Cipo c && FelhasznaloListBox.SelectedItem is Felhasznalo f)
+    {
+        var kapcsolat = new Kapcsolat { FelhasznaloNev = f.Nev, CipoMarka = c.Marka, CipoID = c.Id.ToString() };
+        kapcsolatok.Add(kapcsolat);
+        KapcsolatList.Items.Add(kapcsolat);
+        MentKapcsolatok();
+
+        FeltoltFelhasznaloTreeView();
+    }
+}
+```
+
 
 
 
