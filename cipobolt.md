@@ -250,16 +250,6 @@ A felhasználói felület a következő főbb elemekből áll:
 </TabItem>
 ```
 
----
-
-### Egyéb vezérlők
-
-- **Button**: műveleti gombok, például „Hozzáadás” vagy „Összekapcsolás”. Ezekhez a háttérben eseménykezelők kapcsolódnak (`Click="..."`), amelyek C# metódusokat hívnak meg.
-
-- **Border**: olyan vizuális konténer, amelynek segítségével keretet, hátteret, lekerekített sarkokat és szegélyeket tudunk adni más vezérlőelemek köré. A megjelenést javítja, valamint logikailag is elválaszthatjuk vele a különböző részeket.
-
----
-
 ### DisplayMemberBinding="{Binding ...}" magyarázata
 
 A `GridViewColumn` oszlopoknál gyakran szerepel a következő kifejezés:  
@@ -279,4 +269,130 @@ Példa:
 ### Osztályok
 
 Ebben az alkalmazásban három egyszerű osztály szerepel: `Cipo`, `Felhasznalo` és `Kapcsolat`. Ezek az osztályok az adatok szerkezetét határozzák meg – azaz, hogy **milyen mezőkből áll egy cipő, egy vásárló vagy egy kapcsolat**.
+
+A `get; set;` egy automatikus tárolási forma:
+- **`get`**: kiolvasható az érték
+- **`set`**: beállítható új érték
+```cs
+public class Cipo
+{
+    public int Id { get; set; }
+    public string Marka { get; set; }
+    public string Meret { get; set; }
+    public string Szin { get; set; }
+    public string Ar { get; set; }
+
+    public override string ToString() => $"[{Id}] {Marka} - {Meret} - {Szin} - {Ar} Ft";
+}
+
+public class Felhasznalo
+{
+    public string Nev { get; set; }
+    public string Email { get; set; }
+    public string SzuletesiEv { get; set; }
+    public string Lakhely { get; set; }
+    public string Telefonszam { get; set; }
+    public override string ToString() => Nev;
+}
+
+public class Kapcsolat
+{
+    public string FelhasznaloNev { get; set; }
+    public string CipoMarka { get; set; }
+    public string CipoID { get; set; }
+    public override string ToString() => $"{FelhasznaloNev} - {CipoMarka} {CipoID}";
+}
+```
+
+### Változók:
+
+- **`cipok`**: lista (`List<Cipo>`) – ide kerülnek a programban tárolt cipők.
+- **`felhasznalok`**: lista (`List<Felhasznalo>`) – a regisztrált vásárlókat tartalmazza.
+- **`kapcsolatok`**: lista (`List<Kapcsolat>`) – a cipő-felhasználó kapcsolatok.
+- **`kovetkezoCipoId`**: egész szám – az új cipőknek adandó azonosító, automatikusan növekszik.
+
+```cs
+private List<Cipo> cipok = new List<Cipo>();
+private List<Felhasznalo> felhasznalok = new List<Felhasznalo>();
+private List<Kapcsolat> kapcsolatok = new List<Kapcsolat>();
+private int kovetkezoCipoId = 1;
+```
+
+### Konstruktor
+
+```cs
+public MainWindow()
+{
+    InitializeComponent();                // A felhasználói felület elemeit betölti
+    BetoltCipok();                        // Betölti a mentett cipőket fájlból
+    BetoltFelhasznalok();                // Betölti a vásárlók adatait
+    BetoltKapcsolatok();                 // Betölti a korábbi összekötéseket
+    FeltoltFelhasznaloTreeView();        // A vásárlókat beteszi a TreeView vezérlőbe
+}
+```
+
+# AddCipo_Click
+
+Ez a `AddCipo_Click` nevű függvény egy eseménykezelő, ami akkor fut le, amikor a felhasználó rákattint az „AddCipo” gombra. A függvény célja, hogy egy új cipő adatot vegyen fel a felhasználó által megadott adatok alapján, és ezt megjelenítse a felhasználói felületen.
+
+```csharp
+    if (!int.TryParse(CipoMeret.Text, out _) || !int.TryParse(CipoAr.Text, out _))
+{
+    MessageBox.Show("A méret és az ár csak szám lehet!");
+    return;
+}
+```
+- Megpróbálja átalakítani a CipoMeret.Text és CipoAr.Text szöveges értékeket egész számokká
+- Ha bármelyik nem konvertálható számként (például betűket tartalmaz), akkor megjelenít egy üzenetet: "A méret és az ár csak szám lehet!"
+- Ezután a return; miatt a függvény leáll, nem folytatódik tovább, így nem ad hozzá új cipőt
+
+```csharp
+var cipo = new Cipo
+{
+    Id = kovetkezoCipoId++,
+    Marka = CipoMarka.Text,
+    Meret = CipoMeret.Text,
+    Szin = CipoSzin.Text,
+    Ar = CipoAr.Text
+};
+```
+- Létrehoz egy új Cipo nevű objektumot
+- Az Id mezőjéhez beállítja az aktuális kovetkezoCipoId értéket, majd növeli azt eggyel (++)
+- A Marka, Meret, Szin, Ar tulajdonságokat a felhasználó által beírt szöveges mezők értékeivel tölti fel
+
+Létrehoz egy új Cipo nevű objektumot.
+
+Az Id mezőjéhez beállítja az aktuális kovetkezoCipoId értéket, majd növeli azt eggyel (++).
+
+A Marka, Meret, Szin, Ar tulajdonságokat a felhasználó által beírt szöveges mezők értékeivel tölti fel.
+
+```csharp
+    private void AddCipo_Click(object sender, RoutedEventArgs e)
+{
+    if (!int.TryParse(CipoMeret.Text, out _) || !int.TryParse(CipoAr.Text, out _))
+    {
+        MessageBox.Show("A méret és az ár csak szám lehet!");
+        return;
+    }
+
+    var cipo = new Cipo
+    {
+        Id = kovetkezoCipoId++,
+        Marka = CipoMarka.Text,
+        Meret = CipoMeret.Text,
+        Szin = CipoSzin.Text,
+        Ar = CipoAr.Text
+    };
+
+    cipok.Add(cipo);
+    CipoList.Items.Add(cipo);
+    CipoListBox.Items.Add(cipo);
+    MentCipok();
+}
+```
+---
+
+
+
+
 
