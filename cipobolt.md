@@ -58,4 +58,4 @@ A felhasználói felület a következő főbb elemekből áll:
   <GridViewColumn Header="Felhasználó" DisplayMemberBinding="{Binding FelhasznaloNev}" />
   <GridViewColumn Header="Cipő" DisplayMemberBinding="{Binding CipoMarka}" />
   <GridViewColumn Header="Cipő ID" DisplayMemberBinding="{Binding CipoID}" />
-```
+  ```
