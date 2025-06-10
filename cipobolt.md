@@ -57,3 +57,46 @@ A felhasználói felület a következő főbb elemekből áll:
   <GridViewColumn Header="Cipő" DisplayMemberBinding="{Binding CipoMarka}" />
   <GridViewColumn Header="Cipő ID" DisplayMemberBinding="{Binding CipoID}" />
   ```
+  
+### TabItem – Kereső fül
+
+- **ComboBox**: legördülő lista, amelyből kiválaszthatunk egy vásárlót. Az itt kiválasztott felhasználó alapján jelennek meg a hozzá kapcsolódó cipők.
+  - A `SelectionChanged="KeresesFelhasznaloComboBox_SelectionChanged"` tulajdonság azt jelzi, hogy ha a felhasználó változik, akkor egy C# metódus fut le, ami betölti a kapcsolódó cipőket.
+
+- **ListView**: itt jelennek meg a kiválasztott vásárlóhoz kapcsolt cipők.
+  - Minden sor egy `Cipo` objektumot reprezentál.
+  - A `GridViewColumn` elemek `DisplayMemberBinding="{Binding ...}"` attribútummal rendelkeznek. Ez az adatforráshoz való kötést jelenti.
+  
+    Például:
+    ```xml
+    <GridViewColumn Header="Márka" DisplayMemberBinding="{Binding Marka}" />
+    ```
+    Ez azt jelenti, hogy az oszlop a `Cipo` típusú objektum `Marka` mezőjét jeleníti meg.
+
+- Az oszlopok sorrendje és tartalma:
+  - **ID**: a cipő azonosítója
+  - **Márka**: a cipő márkája
+  - **Méret**: a cipő mérete
+  - **Szín**: a cipő színe
+  - **Ár**: a cipő ára
+
+---
+
+### Egyéb vezérlők
+
+- **Button**: műveleti gombok, például „Hozzáadás” vagy „Összekapcsolás”. Ezekhez a háttérben eseménykezelők kapcsolódnak (`Click="..."`), amelyek C# metódusokat hívnak meg.
+
+- **Border**: olyan vizuális konténer, amelynek segítségével keretet, hátteret, lekerekített sarkokat és szegélyeket tudunk adni más vezérlőelemek köré. A megjelenést javítja, valamint logikailag is elválaszthatjuk vele a különböző részeket.
+
+---
+
+### DisplayMemberBinding="{Binding ...}" magyarázata
+
+A `GridViewColumn` oszlopoknál gyakran szerepel a következő kifejezés:  
+**`DisplayMemberBinding="{Binding Valami}"`**
+
+Ez azt jelenti, hogy az adott oszlop tartalma egy objektum (pl. egy `Cipo` vagy `Felhasznalo`) `Valami` nevű tulajdonságát jeleníti meg.
+
+Példa:
+```xml
+<GridViewColumn Header="Márka" DisplayMemberBinding="{Binding Marka}" />
