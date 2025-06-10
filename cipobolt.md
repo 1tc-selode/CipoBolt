@@ -540,8 +540,315 @@ private void Osszekotes_Click(object sender, RoutedEventArgs e)
     }
 }
 ```
+---
+# BetoltCipok
 
+Ez a BetoltCipok függvény betölti a cipők adatait egy „cipok.txt” nevű fájlból, és feltölti a program cipőlistáit, hogy az adatok megjelenjenek a felhasználói felületen.
 
+```csharp
+if (File.Exists("cipok.txt"))
+{
+    string[] sorok = File.ReadAllLines("cipok.txt");
+    foreach (string sor in sorok)
+    {
+        string[] mezok = sor.Split(';');
+        if (mezok.Length == 5)
+        {
+            
+        }
+    }
+}
+```
+Ellenőrzi, hogy létezik-e a „cipok.txt” fájl az aktuális mappában.
+Beolvassa a „cipok.txt” fájl összes sorát egy string[] tömbbe, ahol minden elem egy sor a fájlból.
+Végigmegy minden egyes soron a fájlban.
+A sorokat pontosvessző (;) jel mentén felbontja mezőkre, így létrejön egy tömb, ahol az egyes elemek a cipő adatai (például Id, Márka, Méret, Szín, Ár).
+Ellenőrzi, hogy pontosan 5 mező van-e a sorban, mert csak így lehet értelmezni a cipő adatait.
+
+```csharp
+Cipo cipo = new Cipo
+{
+    Id = int.Parse(mezok[0]),
+    Marka = mezok[1],
+    Meret = mezok[2],
+    Szin = mezok[3],
+    Ar = mezok[4]
+};
+```
+Létrehoz egy új Cipo objektumot a fájlból beolvasott mezők alapján.
+
+Az első mezőt (Id) egész számmá konvertálja.
+
+A többi mezőt szövegként állítja be.
+
+```csharp
+cipok.Add(cipo);
+CipoList.Items.Add(cipo);
+CipoListBox.Items.Add(cipo);
+```
+Hozzáadja az új cipőt a program cipok nevű listájához.
+
+Megjeleníti az új cipőt a felhasználói felületen található két listaelemen (CipoList és CipoListBox).
+
+```csharp
+if (cipo.Id >= kovetkezoCipoId)
+    kovetkezoCipoId = cipo.Id + 1;
+```
+Ellenőrzi, hogy a beolvasott cipő azonosítója nagyobb vagy egyenlő-e a következő szabad azonosítóval (kovetkezoCipoId).
+
+Ha igen, akkor a következő elérhető azonosítót az aktuális cipő Id-jének egyessel növelt értékére állítja, hogy ne legyen ütközés az új cipők létrehozásakor.
+
+```csharp
+private void BetoltCipok()
+{
+    if (File.Exists("cipok.txt"))
+    {
+        string[] sorok = File.ReadAllLines("cipok.txt");
+        foreach (string sor in sorok)
+        {
+            string[] mezok = sor.Split(';');
+            if (mezok.Length == 5)
+            {
+                Cipo cipo = new Cipo
+                {
+                    Id = int.Parse(mezok[0]),
+                    Marka = mezok[1],
+                    Meret = mezok[2],
+                    Szin = mezok[3],
+                    Ar = mezok[4]
+                };
+                cipok.Add(cipo);
+                CipoList.Items.Add(cipo);
+                CipoListBox.Items.Add(cipo);
+
+                if (cipo.Id >= kovetkezoCipoId)
+                    kovetkezoCipoId = cipo.Id + 1;
+            }
+        }
+    }
+}
+```
+---
+# MentCipok
+
+Ez a MentCipok függvény elmenti a program cipőlistáját egy „cipok.txt” nevű fájlba úgy, hogy minden cipő adatait egy sorba írja, pontosvesszővel elválasztva.
+
+```csharp
+using var writer = new StreamWriter("cipok.txt");
+
+```
+Megnyit egy író (StreamWriter) objektumot a „cipok.txt” fájlhoz.
+
+Ha a fájl már létezik, felülírja.
+
+Az using kulcsszó gondoskodik róla, hogy az író a művelet végén automatikusan bezáródjon és a fájl mentésre kerüljön.
+
+```csharp
+foreach (var c in cipok)
+
+```
+Végigmegy a cipok listában tárolt összes cipő objektumon.
+
+```csharp
+writer.WriteLine($"{c.Id};{c.Marka};{c.Meret};{c.Szin};{c.Ar}");
+
+```
+Minden cipő adatait pontosvesszővel elválasztott formátumban kiírja egy új sorba a fájlban.
+
+Az Id, Márka, Méret, Szín és Ár mezők kerülnek így mentésre.
+```csharp
+private void MentCipok()
+{
+    using var writer = new StreamWriter("cipok.txt");
+    foreach (var c in cipok)
+    {
+        writer.WriteLine($"{c.Id};{c.Marka};{c.Meret};{c.Szin};{c.Ar}");
+    }
+}
+```
+---
+# BetoltFelhasznalok
+
+Ez a függvény betölti a felhasználók adatait a „felhasznalok.txt” fájlból, és feltölti a program felhasználói listáit, hogy az adatok megjelenjenek a felhasználói felületen.
+- Ellenőrzi, hogy létezik-e a „felhasznalok.txt” fájl.
+- Beolvassa a fájl összes sorát.
+- Minden sort pontosvesszővel (;) bont fel, és ha 5 mező van, akkor létrehoz egy Felhasznalo objektumot a mezők alapján.
+- Hozzáadja az új felhasználót a felhasznalok listához és megjeleníti a felületi listákban (FelhasznaloList, FelhasznaloListBox).
+
+```csharp
+private void BetoltFelhasznalok()
+{
+    if (File.Exists("felhasznalok.txt"))
+    {
+        string[] sorok = File.ReadAllLines("felhasznalok.txt");
+        foreach (string sor in sorok)
+        {
+            string[] mezok = sor.Split(';');
+            if (mezok.Length == 5)
+            {
+                Felhasznalo felh = new Felhasznalo
+                {
+                    Nev = mezok[0],
+                    Email = mezok[1],
+                    SzuletesiEv = mezok[2],
+                    Lakhely = mezok[3],
+                    Telefonszam = mezok[4]
+                };
+                felhasznalok.Add(felh);
+                FelhasznaloList.Items.Add(felh);
+                FelhasznaloListBox.Items.Add(felh);
+            }
+        }
+    }
+}
+```
+---
+# MentFelhasznalok
+
+Ez a függvény elmenti a felhasznalok listában tárolt összes felhasználó adatait a felhasznalok.txt fájlba, minden sorba egy felhasználót írva pontosvesszővel elválasztva.
+- StreamWriter-t használ a fájlba íráshoz.
+- Végigmegy minden Felhasznalo objektumon a listában.
+- Kiírja a nevét, e-mail címét, születési évét, lakhelyét és telefonszámát.
+
+```csharp
+private void MentFelhasznalok()
+{
+    using var writer = new StreamWriter("felhasznalok.txt");
+    foreach (var f in felhasznalok)
+    {
+        writer.WriteLine($"{f.Nev};{f.Email};{f.SzuletesiEv};{f.Lakhely};{f.Telefonszam}");
+    }
+}
+```
+---
+# BetoltKapcsolatok
+
+Ez a függvény betölti a kapcsolatok adatait a kapcsolatok.txt fájlból, és feltölti a program kapcsolatlistáját, hogy az adatok megjelenjenek a felületen.
+- Ellenőrzi, hogy létezik-e a fájl.
+- Beolvassa az összes sort.
+- Minden sort pontosvessző (;) alapján mezőkre bont.
+- Ha pontosan 3 mező van, létrehoz egy Kapcsolat objektumot a mezők alapján.
+- Hozzáadja a listához (kapcsolatok) és megjeleníti a KapcsolatList elemben.
+
+```csharp
+private void BetoltKapcsolatok()
+{
+    if (File.Exists("kapcsolatok.txt"))
+    {
+        string[] sorok = File.ReadAllLines("kapcsolatok.txt");
+        foreach (string sor in sorok)
+        {
+            string[] mezok = sor.Split(';');
+            if (mezok.Length == 3)
+            {
+                Kapcsolat kapcsolat = new Kapcsolat
+                {
+                    FelhasznaloNev = mezok[0],
+                    CipoMarka = mezok[1],
+                    CipoID = mezok[2]
+                };
+                kapcsolatok.Add(kapcsolat);
+                KapcsolatList.Items.Add(kapcsolat);
+            }
+        }
+    }
+}
+```
+---
+# MentKapcsolatok
+
+Ez a függvény elmenti a kapcsolatok listában szereplő adatokat a kapcsolatok.txt fájlba.
+- StreamWriter-t használ az íráshoz.
+- Minden Kapcsolat objektumot egy sorban rögzít, pontosvesszővel (;) elválasztva:
+    - FelhasznaloNev
+    - CipoMarka
+    - CipoID
+
+```csharp
+private void MentKapcsolatok()
+{
+    using var writer = new StreamWriter("kapcsolatok.txt");
+    foreach (var k in kapcsolatok)
+    {
+        writer.WriteLine($"{k.FelhasznaloNev};{k.CipoMarka};{k.CipoID}");
+    }
+}
+```
+---
+# FeltoltFelhasznaloTreeView
+
+Ez a függvény frissíti a FelhasznaloTreeView nevű grafikus vezérlőt (pl. TreeView), hogy megjelenítse a programban tárolt összes felhasználót.
+- Először törli a FelhasznaloTreeView összes korábbi elemét.
+- Ezután végigmegy a felhasznalok listán, és hozzáadja az összes felhasználót a TreeView-hoz.
+
+```csharp
+private void FeltoltFelhasznaloTreeView()
+{
+    FelhasznaloTreeView.Items.Clear();
+    foreach (var felh in felhasznalok)
+    {
+        FelhasznaloTreeView.Items.Add(felh);
+    }
+}
+```
+---
+# FelhasznaloTreeView_SelectedItemChanged
+
+Ez az eseménykezelő akkor fut le, amikor a felhasználó kiválaszt egy elemet a FelhasznaloTreeView vezérlőben. A célja: megjeleníteni az adott felhasználóhoz kapcsolódó cipőket a KeresesCipoLista nevű listában.
+
+```csharp
+KeresesCipoLista.Items.Clear();
+```
+Minden alkalommal, amikor új felhasználót választanak ki a TreeView-ból, először törli a cipők listáját, hogy ne maradjanak benne a korábbi adatok.
+
+```csharp
+if (FelhasznaloTreeView.SelectedItem is Felhasznalo felh)
+```
+Ez a sor ellenőrzi, hogy a kiválasztott elem valóban egy Felhasznalo típusú objektum-e.
+Ha igen, akkor elnevezi felh-nek, és vele dolgozik tovább.
+
+```csharp
+var kapcsoltCipok = kapcsolatok
+    .Where(k => k.FelhasznaloNev == felh.Nev)
+    .Join(cipok,
+        k => k.CipoID,
+        c => c.Id.ToString(),
+        (k, c) => c);
+```
+Ez a LINQ-lekérdezés két dolgot csinál:
+- Szűri a kapcsolatok listáját (kapcsolatok), hogy csak azok maradjanak, ahol a FelhasznaloNev megegyezik a kiválasztott felhasználó nevével
+- Ezután összekapcsolja ezeket a kapcsolati elemeket a cipők listájával (cipok) úgy, hogy:
+    - a kapcsolat CipoID mezője (string) megegyezzen a cipő Id mezőjével (egész szám, stringgé alakítva)
+- Az eredmény: egy kapcsoltCipok nevű lista, amely tartalmazza a kiválasztott felhasználóhoz tartozó cipőket
+  
+```csharp
+foreach (var cipo in kapcsoltCipok)
+{
+    KeresesCipoLista.Items.Add(cipo);
+}
+```
+A lekérdezésből kapott összes cipőt hozzáadja a KeresesCipoLista felhasználói felületi elemhez, így a felhasználó láthatja az eredményt.
+
+```csharp
+private void FelhasznaloTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+{
+    KeresesCipoLista.Items.Clear();
+
+    if (FelhasznaloTreeView.SelectedItem is Felhasznalo felh)
+    {
+        var kapcsoltCipok = kapcsolatok
+            .Where(k => k.FelhasznaloNev == felh.Nev)
+            .Join(cipok,
+                k => k.CipoID,
+                c => c.Id.ToString(),
+                (k, c) => c);
+        foreach (var cipo in kapcsoltCipok)
+        {
+            KeresesCipoLista.Items.Add(cipo);
+        }
+    }
+}
+```
 
 
 
