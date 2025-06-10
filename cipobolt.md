@@ -36,7 +36,7 @@ A felhasználói felület a következő főbb elemekből áll:
       <GridViewColumn Header="Márka" DisplayMemberBinding="{Binding Marka}" />
       ```
       → Ez azt jelenti, hogy a `Cipo` objektum `Marka` nevű mezőjét fogja megjeleníteni ebben az oszlopban.
-```cs
+```xaml
       <TabItem Header="Cipők">
     <StackPanel Margin="10">
         <Border Background="White" CornerRadius="5" Padding="10" Margin="0,0,0,10"
@@ -87,7 +87,9 @@ A felhasználói felület a következő főbb elemekből áll:
     ```xml
     <GridViewColumn Header="Lakhely" DisplayMemberBinding="{Binding Lakhely}" />
     ```
-```cs
+![image](https://github.com/user-attachments/assets/b2e969af-fded-4064-950d-a98d40a17001)
+
+```xaml
 <TabItem Header="Vásárlók">
     <StackPanel Margin="10">
         <Border Background="White" CornerRadius="5" Padding="10" Margin="0,0,0,10"
@@ -146,7 +148,9 @@ A felhasználói felület a következő főbb elemekből áll:
   <GridViewColumn Header="Cipő" DisplayMemberBinding="{Binding CipoMarka}" />
   <GridViewColumn Header="Cipő ID" DisplayMemberBinding="{Binding CipoID}" />
   ```
-```cs
+![image](https://github.com/user-attachments/assets/70300911-622c-4803-bae7-cf1045bebc6c)
+
+```xaml
 <TabItem Header="Összekötés">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
@@ -218,8 +222,9 @@ A felhasználói felület a következő főbb elemekből áll:
   - **Méret**: a cipő mérete
   - **Szín**: a cipő színe
   - **Ár**: a cipő ára
+![image](https://github.com/user-attachments/assets/a8b56a04-fb82-49db-80d9-2d456ab004a8)
 
-```cs
+```xaml
 <TabItem Header="Kereső">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
