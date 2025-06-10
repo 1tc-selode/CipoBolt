@@ -103,3 +103,12 @@ Ez azt jelenti, hogy az adott oszlop tartalma egy objektum (pl. egy `Cipo` vagy 
 Példa:
 ```xml
 <GridViewColumn Header="Márka" DisplayMemberBinding="{Binding Marka}" />
+```
+
+---
+
+## CS kód
+
+## Osztályok
+
+Ebben az alkalmazásban három egyszerű osztály szerepel: `Cipo`, `Felhasznalo` és `Kapcsolat`. Ezek az osztályok az adatok szerkezetét határozzák meg – azaz, hogy **milyen mezőkből áll egy cipő, egy vásárló vagy egy kapcsolat**.
