@@ -1,98 +1,61 @@
-# 🥾 Cipő Nyilvántartó – WPF alkalmazás
+# Cipő Nyilvántartó – WPF alkalmazás
 
 Ez az alkalmazás egy **Windows Presentation Foundation (WPF)** alapú rendszer, amely cipők és vásárlók adatainak kezelésére szolgál. Lehetőség van új adatokat hozzáadni, menteni, betölteni, valamint kapcsolatot létrehozni cipők és vásárlók között.
 
 ---
 
-## 🎨 XAML (Felhasználói felület)
+## Felhasználói Felület
 
-A felhasználói felületet **XAML (Extensible Application Markup Language)** segítségével írjuk le. Itt történik az elemek elrendezése, stílusozása és az interakciók (gombok, szövegdobozok stb.) meghatározása.
+A felhasználói felület a következő főbb elemekből áll:
 
-### 🧱 Alapbeállítások
+- **Window**: A fő ablak, amely meghatározza az alkalmazás méretét, címét, betűtípusát és hogy hol jelenjen meg a képernyőn. Itt történik az összes többi vezérlőelem elhelyezése.
 
-A `Window` elem tartalmazza az ablak beállításait:
-- `Title="Cipő Nyilvántartó"` → az ablak címe.
-- `Height`, `Width` → az ablak méretei.
-- `FontFamily="Segoe UI"` → az alapértelmezett betűtípus.
-- `WindowStartupLocation="CenterScreen"` → indításkor középre igazítja az ablakot.
+- **Window.Resources**: Ebben a szakaszban előre beállított stílusokat (Style) definiálunk, amelyek egységes megjelenést adnak bizonyos elemeknek (például gomboknak, szövegdobozoknak stb.). Ezek a stílusok globálisan érvényesek az egész ablakon belül.
 
-### 🎨 Stílusok (Style)
+- **Grid**: Az ablak fő tartalmi konténere, amelyben egyetlen `TabControl` található. A `Grid` olyan elrendezési elem, amely sorok és oszlopok mentén rendezi el a belső vezérlőket.
 
-A `Window.Resources` szekcióban előre beállított stílusokat definiálunk:
-- `TabItem`, `TextBox`, `Button`, `ListView`, `TextBlock`, stb. → ezekhez szabványos margókat, betűtípust, színeket rendelünk.
+- **TabControl**: Olyan vezérlőelem, amely lehetővé teszi, hogy több különböző "lapot" vagy "fület" jelenítsünk meg egymás mellett. Itt négy `TabItem`-et használunk:
+  - **Cipők** fül: cipők hozzáadása és listázása
+  - **Vásárlók** fül: felhasználók hozzáadása és megjelenítése
+  - **Összekötés** fül: cipők és vásárlók összekapcsolása
+  - **Kereső** fül: vásárló kiválasztása után a hozzá tartozó cipők listázása
 
-Ezek segítik az egységes megjelenést.
+### TabItem – Cipők fül
 
-### 🗂 TabControl – Fülek
+- **StackPanel**: Függőleges elrendezésű konténer, amiben két fő rész található:
+  1. **Adatbeviteli rész**: egy `Border` keretbe helyezett `StackPanel`, amelyben vízszintesen egymás mellett helyezkednek el az adatok bevitelére szolgáló mezők:
+     - **TextBlock**: rövid címke, amely megnevezi a mezőt (pl. "Márka")
+     - **TextBox**: a felhasználó itt adja meg az adatokat (pl. CipoMarka)
+  2. **ListView**: egy táblázatszerű lista, amelyben a már hozzáadott cipők jelennek meg. A `GridView` segítségével oszlopokat használunk.
 
-A `TabControl` vezérlő több „fület” jelenít meg:
+    - A `GridViewColumn` elemek rendelkeznek egy `Header` (fejléc) és egy `DisplayMemberBinding` tulajdonsággal.
+    - **`DisplayMemberBinding="{Binding Valami}"`** azt jelenti, hogy az adott oszlop az adatforrás (pl. `Cipo`) egy bizonyos tulajdonságát jeleníti meg.  
+      Például:
+      ```xml
+      <GridViewColumn Header="Márka" DisplayMemberBinding="{Binding Marka}" />
+      ```
+      → Ez azt jelenti, hogy a `Cipo` objektum `Marka` nevű mezőjét fogja megjeleníteni ebben az oszlopban.
 
-1. **Cipők** – új cipő hozzáadása, megtekintése
-2. **Vásárlók** – új vásárló rögzítése
-3. **Összekötés** – cipő és vásárló összerendelése
-4. **Kereső** – vásárlóhoz kapcsolt cipők listázása
+### TabItem – Vásárlók fül
 
-### 📦 Vezérlők és működés
+- Ugyanaz a logika, mint a cipőknél:
+  - `TextBox`-okban megadjuk: név, email, születési év, lakhely, telefonszám
+  - `ListView` táblázatban megjelenítjük ezeket
+  - Itt is `DisplayMemberBinding` kapcsolja az oszlopokat a `Felhasznalo` osztály mezőihez, például:
+    ```xml
+    <GridViewColumn Header="Lakhely" DisplayMemberBinding="{Binding Lakhely}" />
+    ```
 
-- `StackPanel`, `Grid` → elrendezésre szolgáló konténerek
-- `TextBox`, `TextBlock`, `ComboBox`, `ListView`, `ListBox` → felhasználói interakciókhoz
-- `Button` → műveletek indítása (pl. Hozzáadás, Összekapcsolás)
+### TabItem – Összekötés fül
 
----
-
-## 🧠 C# Kódlogika – MainWindow.xaml.cs
-
-Az alkalmazás eseményeit és adatait itt kezeljük.
-
-### 🥾 AddCipo_Click
-
-Cipő hozzáadását végzi:
-- Ellenőrzi, hogy méret és ár szám.
-- Új `Cipo` objektumot hoz létre.
-- Hozzáadja a listához és a vizuális elemekhez (`ListView`, `ListBox`).
-- Mentést végez `cipok.txt` fájlba.
-
-### 👤 AddFelhasznalo_Click
-
-Vásárló felvitel:
-- Ellenőrzi, hogy születési év és telefonszám szám.
-- Új `Felhasznalo` példány készül.
-- Hozzáadás listához és mentés `felhasznalok.txt` fájlba.
-
-### 🔗 Osszekotes_Click
-
-- Ha ki van választva egy cipő és egy vásárló, összeköti őket.
-- Új `Kapcsolat` objektum jön létre, majd menti `kapcsolatok.txt` fájlba.
-
-### 💾 BetoltCipok / BetoltFelhasznalok / BetoltKapcsolatok
-
-- Beolvassák a korábban elmentett adatokat szövegfájlokból.
-- Az adatok feldolgozás után megjelennek a felületen.
-
-### 💽 MentCipok / MentFelhasznalok / MentKapcsolatok
-
-- Fájlba mentik a lista elemeit.
-- A sorok mezőit pontosvessző választja el (`;`), hogy könnyen visszaolvashatók legyenek.
-
-### 🔍 KeresesFelhasznaloComboBox_SelectionChanged
-
-- Vásárló kiválasztásakor listázza azokat a cipőket, amelyeket az adott vásárlóhoz rendeltünk.
-- A `kapcsolatok` listát szűri és a kapcsolódó `Cipo` objektumokat adja vissza.
-
----
-
-## 🧾 Adattípusok
-
-### `Cipo` osztály
-
-```csharp
-public class Cipo
-{
-    public int Id { get; set; }
-    public string Marka { get; set; }
-    public string Meret { get; set; }
-    public string Szin { get; set; }
-    public string Ar { get; set; }
-
-    public override string ToString() => $"[{Id}] {Marka} - {Meret} - {Szin} - {Ar} Ft";
-}
+- **Grid**: Itt már komolyabb elrendezés van, két oszlop és három sor.
+- **ListBox**: két külön lista, az egyikben cipőket, a másikban vásárlókat választunk ki.
+  - A vásárlók listája a `FelhasznaloListBox`, és itt:
+    - `DisplayMemberPath="Nev"` → ez egyszerűbb alternatíva a `DisplayMemberBinding`-re, csak string mezőt lehet megadni.
+- **Button**: „Összekapcsolás” gomb, ami a kiválasztott elemekből kapcsolatot hoz létre.
+- **ListView**: itt jelennek meg a kapcsolatok:
+  ```xml
+  <GridViewColumn Header="Felhasználó" DisplayMemberBinding="{Binding FelhasznaloNev}" />
+  <GridViewColumn Header="Cipő" DisplayMemberBinding="{Binding CipoMarka}" />
+  <GridViewColumn Header="Cipő ID" DisplayMemberBinding="{Binding CipoID}" />
+```
