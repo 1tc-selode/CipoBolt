@@ -8,8 +8,6 @@ Ez az alkalmazás egy **Windows Presentation Foundation (WPF)** alapú rendszer,
 
 A felhasználói felület a következő főbb elemekből áll:
 
-- **Window**: A fő ablak, amely meghatározza az alkalmazás méretét, címét, betűtípusát és hogy hol jelenjen meg a képernyőn. Itt történik az összes többi vezérlőelem elhelyezése.
-
 - **Window.Resources**: Ebben a szakaszban előre beállított stílusokat (Style) definiálunk, amelyek egységes megjelenést adnak bizonyos elemeknek (például gomboknak, szövegdobozoknak stb.). Ezek a stílusok globálisan érvényesek az egész ablakon belül.
 
 - **Grid**: Az ablak fő tartalmi konténere, amelyben egyetlen `TabControl` található. A `Grid` olyan elrendezési elem, amely sorok és oszlopok mentén rendezi el a belső vezérlőket.
