@@ -140,7 +140,7 @@ A felhasználói felület a következő főbb elemekből áll:
 - **Grid**: Itt már komolyabb elrendezés van, két oszlop és három sor.
 - **ListBox**: két külön lista, az egyikben cipőket, a másikban vásárlókat választunk ki.
   - A vásárlók listája a `FelhasznaloListBox`, és itt:
-    - `DisplayMemberPath="Nev"` → ez egyszerűbb alternatíva a `DisplayMemberBinding`-re, csak string mezőt lehet megadni.
+    - `DisplayMemberBinding`, csak string mezőt lehet megadni.
 - **Button**: „Összekapcsolás” gomb, ami a kiválasztott elemekből kapcsolatot hoz létre.
 - **ListView**: itt jelennek meg a kapcsolatok:
   ```xml
