@@ -203,25 +203,19 @@ A felhasználói felület a következő főbb elemekből áll:
   
 ### TabItem – Kereső fül
 
-- **ComboBox**: legördülő lista, amelyből kiválaszthatunk egy vásárlót. Az itt kiválasztott felhasználó alapján jelennek meg a hozzá kapcsolódó cipők.
-  - A `SelectionChanged="KeresesFelhasznaloComboBox_SelectionChanged"` tulajdonság azt jelzi, hogy ha a felhasználó változik, akkor egy C# metódus fut le, ami betölti a kapcsolódó cipőket.
+- A jobb oldalon egy **függőleges `StackPanel`** tartalmazza:
+  - Egy `TextBlock`-ot, amely címszerűen jelöli a listát: **"Kapcsolt cipők"**
+  - Alatta egy `ListView`-ot, ami a kiválasztott vásárlóhoz tartozó cipőket mutatja.
 
-- **ListView**: itt jelennek meg a kiválasztott vásárlóhoz kapcsolt cipők.
-  - Minden sor egy `Cipo` objektumot reprezentál.
-  - A `GridViewColumn` elemek `DisplayMemberBinding="{Binding ...}"` attribútummal rendelkeznek. Ez az adatforráshoz való kötést jelenti.
-  
-    Például:
-    ```xml
-    <GridViewColumn Header="Márka" DisplayMemberBinding="{Binding Marka}" />
-    ```
-    Ez azt jelenti, hogy az oszlop a `Cipo` típusú objektum `Marka` mezőjét jeleníti meg.
-
-- Az oszlopok sorrendje és tartalma:
+- A `ListView` `GridView` típusú nézetet használ, így minden cipő adata külön oszlopban jelenik meg:
   - **ID**: a cipő azonosítója
-  - **Márka**: a cipő márkája
-  - **Méret**: a cipő mérete
-  - **Szín**: a cipő színe
+  - **Márka**: a cipő márkaneve
+  - **Méret**: a cipő mérete (pl. 42)
+  - **Szín**: a cipő színe (pl. fekete)
   - **Ár**: a cipő ára
+
+- A `ListView` is egy `Border` vezérlőn belül található, amely vizuálisan keretezi a tartalmat, és konzisztens megjelenést biztosít.
+
 ![image](https://github.com/user-attachments/assets/a8b56a04-fb82-49db-80d9-2d456ab004a8)
 
 ```xaml
