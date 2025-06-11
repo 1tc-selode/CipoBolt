@@ -203,18 +203,21 @@ A felhasználói felület a következő főbb elemekből áll:
   
 ### TabItem – Kereső fül
 
-- A jobb oldalon egy **függőleges `StackPanel`** tartalmazza:
-  - Egy `TextBlock`-ot, amely címszerűen jelöli a listát: **"Kapcsolt cipők"**
-  - Alatta egy `ListView`-ot, ami a kiválasztott vásárlóhoz tartozó cipőket mutatja.
+- **Elrendezés**: Egy `Grid` két oszloppal:
+  - Bal oldalon: felhasználók `TreeView`-ban
+  - Jobb oldalon: kapcsolt cipők `ListView`-ban
 
-- A `ListView` `GridView` típusú nézetet használ, így minden cipő adata külön oszlopban jelenik meg:
-  - **ID**: a cipő azonosítója
-  - **Márka**: a cipő márkaneve
-  - **Méret**: a cipő mérete (pl. 42)
-  - **Szín**: a cipő színe (pl. fekete)
-  - **Ár**: a cipő ára
+#### TreeView – Vásárlók listája
 
-- A `ListView` is egy `Border` vezérlőn belül található, amely vizuálisan keretezi a tartalmat, és konzisztens megjelenést biztosít.
+- A `TreeView` egy fastruktúrájú lista, ami itt a felhasználók nevét jeleníti meg (`DisplayMemberPath="Nev"`).
+- Az `SelectedItemChanged` esemény akkor fut le, ha kiválasztunk egy vásárlót.
+- A vezérlő `Border`-ben van, ami keretet és háttérszínt ad.
+
+#### ListView – Kapcsolt cipők
+
+- A kiválasztott felhasználóhoz tartozó cipők `ListView`-ban jelennek meg.
+- A `GridView` oszlopai: ID, Márka, Méret, Szín, Ár.
+- Szintén `Border` veszi körül a vizuális egységesség érdekében.
 
 ![image](https://github.com/user-attachments/assets/a8b56a04-fb82-49db-80d9-2d456ab004a8)
 
